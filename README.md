@@ -1,5 +1,7 @@
 # Mesa3D with support for MiniGUI
 
+NOTE THAT THE SUPPORT FOR MINIGUI IS STILL UNDER DEVELOPMENT!
+
 This is a port of Mesa3D (https://www.mesa3d.org) for MiniGUI.
 
 Naturally, we implement a MiniGUI driver for Mesa EGL implementation.
