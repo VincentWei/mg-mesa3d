@@ -98,6 +98,7 @@ XVMC_REQUIRED=1.0.6
 PYTHON_MAKO_REQUIRED=0.8.0
 LIBSENSORS_REQUIRED=4.0.0
 ZLIB_REQUIRED=1.2.3
+MINIGUI_REQUIRED=3.2.0
 
 dnl LLVM versions
 LLVM_REQUIRED_GALLIUM=3.3.0
@@ -1685,7 +1686,7 @@ dnl
 AC_ARG_WITH([platforms],
     [AS_HELP_STRING([--with-platforms@<:@=DIRS...@:>@],
         [comma delimited native platforms libEGL/Vulkan/other supports, e.g.
-        "x11,drm,wayland,surfaceless..." @<:@default=auto@:>@])],
+        "x11,drm,wayland,surfaceless,minigui..." @<:@default=auto@:>@])],
     [with_platforms="$withval"],
     [with_platforms=auto])
 
@@ -1745,6 +1746,14 @@ for plat in $platforms; do
         DEFINES="$DEFINES -DHAVE_ANDROID_PLATFORM"
         ;;
 
+    minigui)
+        PKG_CHECK_MODULES([MINIGUI], [minigui >= $MINIGUI_REQUIRED], [have_minigui=yes], [have_minigui=no])
+        if test "x$have_minigui" = "xno"; then
+            AC_MSG_ERROR([MiniGUI >= $MINIGUI_REQUIRED is needed to compile the minigui platform])
+        fi
+        DEFINES="$DEFINES -DHAVE_MINIGUI_PLATFORM"
+        ;;
+
     *)
         AC_MSG_ERROR([platform '$plat' does not exist])
         ;;
@@ -1775,6 +1784,7 @@ AM_CONDITIONAL(HAVE_PLATFORM_WAYLAND, echo "$platforms" | grep -q 'wayland')
 AM_CONDITIONAL(HAVE_PLATFORM_DRM, echo "$platforms" | grep -q 'drm')
 AM_CONDITIONAL(HAVE_PLATFORM_SURFACELESS, echo "$platforms" | grep -q 'surfaceless')
 AM_CONDITIONAL(HAVE_PLATFORM_ANDROID, echo "$platforms" | grep -q 'android')
+AM_CONDITIONAL(HAVE_PLATFORM_MINIGUI, echo "$platforms" | grep -q 'minigui')
 
 dnl
 dnl More DRI setup

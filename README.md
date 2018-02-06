@@ -27,7 +27,9 @@ Mesa3D uses GNU autoconf/automake scripts to configure and build the project.
 
 Run
 
-    $ ./configure --enable-gl --enable-gles2 --enable-egl --enable-egl-minigui;
+    $ ./configure --enable-gl --enable-gles2 --enable-egl  \
+        --disable-glx \
+        --with-platforms=minigui        # include 'x11' if you enable GLX.
     $ make; sudo make install
 
 to configure, make, and install the headers and the libraries (libGL, 
